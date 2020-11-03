@@ -1,4 +1,4 @@
-package oss
+package oci
 
 import (
 	"time"
@@ -11,15 +11,15 @@ import (
 	wfv1 "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1"
 )
 
-// OSSArtifactDriver is a driver for OSS
-type OSSArtifactDriver struct {
+// OCIArtifactDriver is a driver for Oracle OCI
+type OCIArtifactDriver struct {
 	Endpoint  string
 	AccessKey string
 	SecretKey string
 }
 
-func (ossDriver *OSSArtifactDriver) newOSSClient() (*oss.Client, error) {
-	client, err := oss.New(ossDriver.Endpoint, ossDriver.AccessKey, ossDriver.SecretKey)
+func (ociDriver *OCIArtifactDriver) newOCIClient() (*oss.Client, error) {
+	client, err := oss.New(ociDriver.Endpoint, ociDriver.AccessKey, ociDriver.SecretKey)
 	if err != nil {
 		log.Warnf("Failed to create new OSS client: %v", err)
 		return nil, err
@@ -27,12 +27,12 @@ func (ossDriver *OSSArtifactDriver) newOSSClient() (*oss.Client, error) {
 	return client, err
 }
 
-// Downloads artifacts from OSS compliant storage, e.g., downloading an artifact into local path
-func (ossDriver *OSSArtifactDriver) Load(inputArtifact *wfv1.Artifact, path string) error {
+// Load loads an artifact
+func (ociDriver *OCIArtifactDriver) Load(inputArtifact *wfv1.Artifact, path string) error {
 	err := wait.ExponentialBackoff(wait.Backoff{Duration: time.Second * 2, Factor: 2.0, Steps: 5, Jitter: 0.1},
 		func() (bool, error) {
 			log.Infof("OSS Load path: %s, key: %s", path, inputArtifact.OSS.Key)
-			osscli, err := ossDriver.newOSSClient()
+			osscli, err := ociDriver.newOCIClient()
 			if err != nil {
 				return false, err
 			}
@@ -51,12 +51,12 @@ func (ossDriver *OSSArtifactDriver) Load(inputArtifact *wfv1.Artifact, path stri
 	return err
 }
 
-// Saves an artifact to OSS compliant storage, e.g., uploading a local file to OSS bucket
-func (ossDriver *OSSArtifactDriver) Save(path string, outputArtifact *wfv1.Artifact) error {
+// Save saves an artifact
+func (ociDriver *OCIArtifactDriver) Save(path string, outputArtifact *wfv1.Artifact) error {
 	err := wait.ExponentialBackoff(wait.Backoff{Duration: time.Second * 2, Factor: 2.0, Steps: 5, Jitter: 0.1},
 		func() (bool, error) {
-			log.Infof("OSS Save path: %s, key: %s", path, outputArtifact.OSS.Key)
-			osscli, err := ossDriver.newOSSClient()
+			log.Infof("OCI Save path: %s, key: %s", path, outputArtifact.OSS.Key)
+			osscli, err := ociDriver.newOCIClient()
 			if err != nil {
 				log.Warnf("Failed to create new OSS client: %v", err)
 				return false, nil
