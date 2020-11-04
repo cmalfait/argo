@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/argoproj/argo/workflow/artifacts/gcs"
+	"github.com/argoproj/argo/workflow/artifacts/oci"
 	"github.com/argoproj/argo/workflow/artifacts/oss"
 
 	wfv1 "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1"
@@ -109,6 +110,28 @@ func NewDriver(art *wfv1.Artifact, ri resource.Interface) (ArtifactDriver, error
 	}
 	if art.Raw != nil {
 		return &raw.RawArtifactDriver{}, nil
+	}
+
+	if art.OCI != nil {
+		var compartmentOCID string
+
+//		if art.OCI.AccessKeySecret.Name != "" {
+//			accessKeyBytes, err := ri.GetSecret(art.OCI.AccessKeySecret.Name, art.OCI.AccessKeySecret.Key)
+//			if err != nil {
+//				return nil, err
+//			}
+//			accessKey = string(accessKeyBytes)
+//			secretKeyBytes, err := ri.GetSecret(art.OCI.SecretKeySecret.Name, art.OCI.SecretKeySecret.Key)
+//			if err != nil {
+//				return nil, err
+//			}
+//			secretKey = string(secretKeyBytes)
+//		}
+
+		driver := oci.ArtifactDriver{
+			Compartment:  compartmentOCID,
+		}
+		return &driver, nil
 	}
 
 	if art.OSS != nil {

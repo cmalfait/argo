@@ -2,22 +2,38 @@ package oci
 
 import (
 	"time"
+	"fmt"
+	"context"
+
+	"github.com/oracle/oci-go-sdk/v27/common"
+	"github.com/oracle/oci-go-sdk/v27/example/helpers"
+	"github.com/oracle/oci-go-sdk/v27/objectstorage"
+	//	"github.com/oracle/oci-go-sdk/v27/objectstorage/transfer"
+	//	"github.com/oracle/oci-go-sdk/v27/identity
 
 	log "github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/util/wait"
 
-	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+//	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 
 	wfv1 "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1"
 )
 
-// OCIArtifactDriver is a driver for Oracle OCI
-type OCIArtifactDriver struct {
-	Endpoint  string
-	AccessKey string
-	SecretKey string
+// ArtifactDriver is a driver for Oracle OCI
+type ArtifactDriver struct {
+	Compartment  string
 }
 
+//func (ociDriver *ArtifactDriver) newOCIClient() (objectstorage.ObjectStorageClient) {
+//func newOCIClient() (context.Context, objectstorage.ObjectStorageClient) {
+func (ociDriver *ArtifactDriver) newOCIClient() (context.Context, objectstorage.ObjectStorageClient) {
+	ctx := context.Background()
+	client, _ := objectstorage.NewObjectStorageClientWithConfigurationProvider(common.DefaultConfigProvider())
+
+	return ctx, client
+}
+
+/*
 func (ociDriver *OCIArtifactDriver) newOCIClient() (*oss.Client, error) {
 	client, err := oss.New(ociDriver.Endpoint, ociDriver.AccessKey, ociDriver.SecretKey)
 	if err != nil {
@@ -26,9 +42,10 @@ func (ociDriver *OCIArtifactDriver) newOCIClient() (*oss.Client, error) {
 	}
 	return client, err
 }
+*/
 
 // Load loads an artifact
-func (ociDriver *OCIArtifactDriver) Load(inputArtifact *wfv1.Artifact, path string) error {
+func (ociDriver *ArtifactDriver) Load(inputArtifact *wfv1.Artifact, path string) error {
 	err := wait.ExponentialBackoff(wait.Backoff{Duration: time.Second * 2, Factor: 2.0, Steps: 5, Jitter: 0.1},
 		func() (bool, error) {
 			log.Infof("OSS Load path: %s, key: %s", path, inputArtifact.OSS.Key)
@@ -52,7 +69,7 @@ func (ociDriver *OCIArtifactDriver) Load(inputArtifact *wfv1.Artifact, path stri
 }
 
 // Save saves an artifact
-func (ociDriver *OCIArtifactDriver) Save(path string, outputArtifact *wfv1.Artifact) error {
+func (ociDriver *ArtifactDriver) Save(path string, outputArtifact *wfv1.Artifact) error {
 	err := wait.ExponentialBackoff(wait.Backoff{Duration: time.Second * 2, Factor: 2.0, Steps: 5, Jitter: 0.1},
 		func() (bool, error) {
 			log.Infof("OCI Save path: %s, key: %s", path, outputArtifact.OSS.Key)
