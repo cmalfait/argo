@@ -2267,6 +2267,18 @@ func schema_pkg_apis_workflow_v1alpha1_OCIArtifact(ref common.ReferenceCallback)
 							Format:      "",
 						},
 					},
+					"accessKeySecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "AccessKeySecret is the secret selector to the bucket's access key",
+							Ref:         ref("k8s.io/api/core/v1.SecretKeySelector"),
+						},
+					},
+					"secretKeySecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SecretKeySecret is the secret selector to the bucket's secret key",
+							Ref:         ref("k8s.io/api/core/v1.SecretKeySelector"),
+						},
+					},
 					"compartmentOCID": {
 						SchemaProps: spec.SchemaProps{
 							Description: "CompartmentOCID is the ocid of the Compartment",
@@ -2282,9 +2294,11 @@ func schema_pkg_apis_workflow_v1alpha1_OCIArtifact(ref common.ReferenceCallback)
 						},
 					},
 				},
-				Required: []string{"endpoint", "bucket", "compartmentOCID", "key"},
+				Required: []string{"endpoint", "bucket", "accessKeySecret", "secretKeySecret", "compartmentOCID", "key"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.SecretKeySelector"},
 	}
 }
 
@@ -2309,6 +2323,18 @@ func schema_pkg_apis_workflow_v1alpha1_OCIBucket(ref common.ReferenceCallback) c
 							Format:      "",
 						},
 					},
+					"accessKeySecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "AccessKeySecret is the secret selector to the bucket's access key",
+							Ref:         ref("k8s.io/api/core/v1.SecretKeySelector"),
+						},
+					},
+					"secretKeySecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SecretKeySecret is the secret selector to the bucket's secret key",
+							Ref:         ref("k8s.io/api/core/v1.SecretKeySelector"),
+						},
+					},
 					"compartmentOCID": {
 						SchemaProps: spec.SchemaProps{
 							Description: "CompartmentOCID is the ocid of the Compartment",
@@ -2317,9 +2343,11 @@ func schema_pkg_apis_workflow_v1alpha1_OCIBucket(ref common.ReferenceCallback) c
 						},
 					},
 				},
-				Required: []string{"endpoint", "bucket", "compartmentOCID"},
+				Required: []string{"endpoint", "bucket", "accessKeySecret", "secretKeySecret", "compartmentOCID"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.SecretKeySelector"},
 	}
 }
 

@@ -3125,10 +3125,16 @@
       "required": [
         "endpoint",
         "bucket",
+        "accessKeySecret",
+        "secretKeySecret",
         "compartmentOCID",
         "key"
       ],
       "properties": {
+        "accessKeySecret": {
+          "description": "AccessKeySecret is the secret selector to the bucket's access key",
+          "$ref": "#/definitions/io.k8s.api.core.v1.SecretKeySelector"
+        },
         "bucket": {
           "description": "Bucket is the name of the bucket",
           "type": "string"
@@ -3144,6 +3150,10 @@
         "key": {
           "description": "Key is the path in the bucket where the artifact resides",
           "type": "string"
+        },
+        "secretKeySecret": {
+          "description": "SecretKeySecret is the secret selector to the bucket's secret key",
+          "$ref": "#/definitions/io.k8s.api.core.v1.SecretKeySelector"
         }
       }
     },
