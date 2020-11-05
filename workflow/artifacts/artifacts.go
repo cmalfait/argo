@@ -129,7 +129,7 @@ func NewDriver(art *wfv1.Artifact, ri resource.Interface) (ArtifactDriver, error
 //		}
 
 		driver := oci.ArtifactDriver{
-			Compartment:  compartmentOCID,
+			CompartmentOCID:  compartmentOCID,
 		}
 		return &driver, nil
 	}
