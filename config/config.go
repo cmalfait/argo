@@ -123,6 +123,8 @@ type ArtifactRepository struct {
 	Artifactory *ArtifactoryArtifactRepository `json:"artifactory,omitempty"`
 	// HDFS stores artifacts in HDFS
 	HDFS *HDFSArtifactRepository `json:"hdfs,omitempty"`
+	// OCI stores artifact in a OCI-compliant object store
+	OCI *OCIArtifactRepository `json:"oci,omitempty"`
 	// OSS stores artifact in a OSS-compliant object store
 	OSS *OSSArtifactRepository `json:"oss,omitempty"`
 	// GCS stores artifact in a GCS object store
@@ -198,6 +200,14 @@ type S3ArtifactRepository struct {
 	// KeyPrefix is prefix used as part of the bucket key in which the controller will store artifacts.
 	// DEPRECATED. Use KeyFormat instead
 	KeyPrefix string `json:"keyPrefix,omitempty"`
+}
+
+// OCIArtifactRepository defines the controller configuration for an OCI artifact repository
+type OCIArtifactRepository struct {
+	wfv1.OCIBucket `json:",inline"`
+
+	// KeyFormat is defines the format of how to store keys. Can reference workflow variables
+	KeyFormat string `json:"keyFormat,omitempty"`
 }
 
 // OSSArtifactRepository defines the controller configuration for an OSS artifact repository

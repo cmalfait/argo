@@ -2175,6 +2175,7 @@ Artifact indicates an artifact to place at a specified path
 |`http`|[`HTTPArtifact`](#httpartifact)|HTTP contains HTTP artifact location details|
 |`mode`|`int32`|mode bits to use on this file, must be a value between 0 and 0777 set when loading input artifacts.|
 |`name`|`string`|name of the artifact. must be unique within a template's inputs/outputs.|
+|`oci`|[`OCIArtifact`](#ociartifact)|OCI contains OCI artifact location details|
 |`optional`|`boolean`|Make Artifacts optional, if Artifacts doesn't generate or exist|
 |`oss`|[`OSSArtifact`](#ossartifact)|OSS contains OSS artifact location details|
 |`path`|`string`|Path is the container path to the artifact|
@@ -2438,6 +2439,7 @@ ArtifactLocation describes a location for a single or multiple artifacts. It is 
 |`git`|[`GitArtifact`](#gitartifact)|Git contains git artifact location details|
 |`hdfs`|[`HDFSArtifact`](#hdfsartifact)|HDFS contains HDFS artifact location details|
 |`http`|[`HTTPArtifact`](#httpartifact)|HTTP contains HTTP artifact location details|
+|`oci`|[`OCIArtifact`](#ociartifact)|OCI contains OCI artifact location details|
 |`oss`|[`OSSArtifact`](#ossartifact)|OSS contains OSS artifact location details|
 |`raw`|[`RawArtifact`](#rawartifact)|Raw contains raw artifact location details|
 |`s3`|[`S3Artifact`](#s3artifact)|S3 contains S3 artifact location details|
@@ -3538,6 +3540,18 @@ HTTPArtifact allows an file served on HTTP to be placed as an input artifact in 
 |:----------:|:----------:|---------------|
 |`headers`|`Array<`[`Header`](#header)`>`|Headers are an optional list of headers to send with HTTP requests for artifacts|
 |`url`|`string`|URL of the artifact|
+
+## OCIArtifact
+
+OCIArtifact is the location of an OCI artifact
+
+### Fields
+| Field Name | Field Type | Description   |
+|:----------:|:----------:|---------------|
+|`bucket`|`string`|Bucket is the name of the bucket|
+|`compartmentOCID`|`string`|CompartmentOCID is the ocid of the Compartment|
+|`endpoint`|`string`|Endpoint is the hostname of the bucket endpoint|
+|`key`|`string`|Key is the path in the bucket where the artifact resides|
 
 ## OSSArtifact
 

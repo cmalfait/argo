@@ -2003,6 +2003,10 @@
           "description": "name of the artifact. must be unique within a template's inputs/outputs.",
           "type": "string"
         },
+        "oci": {
+          "description": "OCI contains OCI artifact location details",
+          "$ref": "#/definitions/io.argoproj.workflow.v1alpha1.OCIArtifact"
+        },
         "optional": {
           "description": "Make Artifacts optional, if Artifacts doesn't generate or exist",
           "type": "boolean"
@@ -2060,6 +2064,10 @@
         "http": {
           "description": "HTTP contains HTTP artifact location details",
           "$ref": "#/definitions/io.argoproj.workflow.v1alpha1.HTTPArtifact"
+        },
+        "oci": {
+          "description": "OCI contains OCI artifact location details",
+          "$ref": "#/definitions/io.argoproj.workflow.v1alpha1.OCIArtifact"
         },
         "oss": {
           "description": "OSS contains OSS artifact location details",
@@ -3110,6 +3118,34 @@
     "io.argoproj.workflow.v1alpha1.NoneStrategy": {
       "description": "NoneStrategy indicates to skip tar process and upload the files or directory tree as independent files. Note that if the artifact is a directory, the artifact driver must support the ability to save/load the directory appropriately.",
       "type": "object"
+    },
+    "io.argoproj.workflow.v1alpha1.OCIArtifact": {
+      "description": "OCIArtifact is the location of an OCI artifact",
+      "type": "object",
+      "required": [
+        "endpoint",
+        "bucket",
+        "compartmentOCID",
+        "key"
+      ],
+      "properties": {
+        "bucket": {
+          "description": "Bucket is the name of the bucket",
+          "type": "string"
+        },
+        "compartmentOCID": {
+          "description": "CompartmentOCID is the ocid of the Compartment",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "Endpoint is the hostname of the bucket endpoint",
+          "type": "string"
+        },
+        "key": {
+          "description": "Key is the path in the bucket where the artifact resides",
+          "type": "string"
+        }
+      }
     },
     "io.argoproj.workflow.v1alpha1.OSSArtifact": {
       "description": "OSSArtifact is the location of an Alibaba Cloud OSS artifact",

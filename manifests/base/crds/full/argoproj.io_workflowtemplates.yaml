@@ -493,6 +493,46 @@ spec:
                         type: integer
                       name:
                         type: string
+                      oci:
+                        properties:
+                          accessKeySecret:
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                type: string
+                              optional:
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                          bucket:
+                            type: string
+                          compartmentOCID:
+                            type: string
+                          endpoint:
+                            type: string
+                          key:
+                            type: string
+                          secretKeySecret:
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                type: string
+                              optional:
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                        required:
+                        - accessKeySecret
+                        - bucket
+                        - compartmentOCID
+                        - endpoint
+                        - key
+                        - secretKeySecret
+                        type: object
                       optional:
                         type: boolean
                       oss:
@@ -1361,6 +1401,46 @@ spec:
                         required:
                         - url
                         type: object
+                      oci:
+                        properties:
+                          accessKeySecret:
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                type: string
+                              optional:
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                          bucket:
+                            type: string
+                          compartmentOCID:
+                            type: string
+                          endpoint:
+                            type: string
+                          key:
+                            type: string
+                          secretKeySecret:
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                type: string
+                              optional:
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                        required:
+                        - accessKeySecret
+                        - bucket
+                        - compartmentOCID
+                        - endpoint
+                        - key
+                        - secretKeySecret
+                        type: object
                       oss:
                         properties:
                           accessKeySecret:
@@ -1655,6 +1735,46 @@ spec:
                               type: integer
                             name:
                               type: string
+                            oci:
+                              properties:
+                                accessKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                bucket:
+                                  type: string
+                                compartmentOCID:
+                                  type: string
+                                endpoint:
+                                  type: string
+                                key:
+                                  type: string
+                                secretKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              required:
+                              - accessKeySecret
+                              - bucket
+                              - compartmentOCID
+                              - endpoint
+                              - key
+                              - secretKeySecret
+                              type: object
                             optional:
                               type: boolean
                             oss:
@@ -2544,6 +2664,46 @@ spec:
                                         type: integer
                                       name:
                                         type: string
+                                      oci:
+                                        properties:
+                                          accessKeySecret:
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                type: string
+                                              optional:
+                                                type: boolean
+                                            required:
+                                            - key
+                                            type: object
+                                          bucket:
+                                            type: string
+                                          compartmentOCID:
+                                            type: string
+                                          endpoint:
+                                            type: string
+                                          key:
+                                            type: string
+                                          secretKeySecret:
+                                            properties:
+                                              key:
+                                                type: string
+                                              name:
+                                                type: string
+                                              optional:
+                                                type: boolean
+                                            required:
+                                            - key
+                                            type: object
+                                        required:
+                                        - accessKeySecret
+                                        - bucket
+                                        - compartmentOCID
+                                        - endpoint
+                                        - key
+                                        - secretKeySecret
+                                        type: object
                                       optional:
                                         type: boolean
                                       oss:
@@ -3506,6 +3666,46 @@ spec:
                               type: integer
                             name:
                               type: string
+                            oci:
+                              properties:
+                                accessKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                bucket:
+                                  type: string
+                                compartmentOCID:
+                                  type: string
+                                endpoint:
+                                  type: string
+                                key:
+                                  type: string
+                                secretKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              required:
+                              - accessKeySecret
+                              - bucket
+                              - compartmentOCID
+                              - endpoint
+                              - key
+                              - secretKeySecret
+                              type: object
                             optional:
                               type: boolean
                             oss:
@@ -3952,6 +4152,46 @@ spec:
                               type: integer
                             name:
                               type: string
+                            oci:
+                              properties:
+                                accessKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                bucket:
+                                  type: string
+                                compartmentOCID:
+                                  type: string
+                                endpoint:
+                                  type: string
+                                key:
+                                  type: string
+                                secretKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              required:
+                              - accessKeySecret
+                              - bucket
+                              - compartmentOCID
+                              - endpoint
+                              - key
+                              - secretKeySecret
+                              type: object
                             optional:
                               type: boolean
                             oss:

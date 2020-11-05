@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/oracle/oci-go-sdk/v27/common"
-//	"github.com/oracle/oci-go-sdk/v27/example/helpers"
+	"github.com/oracle/oci-go-sdk/v27/example/helpers"
 	"github.com/oracle/oci-go-sdk/v27/objectstorage"
 	//	"github.com/oracle/oci-go-sdk/v27/objectstorage/transfer"
 	//	"github.com/oracle/oci-go-sdk/v27/identity
@@ -25,8 +25,8 @@ type ArtifactDriver struct {
 }
 
 //func (ociDriver *ArtifactDriver) newOCIClient() (objectstorage.ObjectStorageClient) {
-//func newOCIClient() (context.Context, objectstorage.ObjectStorageClient) {
-func (ociDriver *ArtifactDriver) newOCIClient() (objectstorage.ObjectStorageClient, context.Context) {
+func newOCIClient() (objectstorage.ObjectStorageClient, context.Context) {
+//func (ociDriver *ArtifactDriver) newOCIClient() (objectstorage.ObjectStorageClient, context.Context) {
 	fmt.Println("creating client driver...")
 	client, _ := objectstorage.NewObjectStorageClientWithConfigurationProvider(common.DefaultConfigProvider())
 	ctx := context.Background()
@@ -45,8 +45,44 @@ func (ociDriver *OCIArtifactDriver) newOCIClient() (*oss.Client, error) {
 }
 */
 
+//func getNamespace(ctx context.Context, c objectstorage.ObjectStorageClient) string {
+func getNamespace(ctx context.Context, c objectstorage.ObjectStorageClient) string {
+    request := objectstorage.GetNamespaceRequest{}
+    r, _ := c.GetNamespace(ctx, request)
+    fmt.Println()
+    fmt.Print("Namespace: ")
+    return *r.Value
+}
+
+func createBucket(ctx context.Context, c objectstorage.ObjectStorageClient, namespace, name string) {
+	compartmentID := "ocid1.compartment.oc1..aaaaaaaaidx64b2wndiympj27i3a25riynkbpleenxu56yyjlef3joehboxa"
+	var pcompartmentID *string /* pointer variable declaration */
+	pcompartmentID = &compartmentID
+
+	request := objectstorage.CreateBucketRequest{
+			NamespaceName: &namespace,
+	}
+//      request.CompartmentId = helpers.CompartmentID()
+	request.CompartmentId = pcompartmentID
+	request.Name = &name
+	request.Metadata = make(map[string]string)
+	request.PublicAccessType = objectstorage.CreateBucketDetailsPublicAccessTypeNopublicaccess
+	_, err := c.CreateBucket(ctx, request)
+	helpers.FatalIfError(err)
+
+	fmt.Println("create bucket")
+}
+
 // Load loads an artifact
 func (ociDriver *ArtifactDriver) Load(inputArtifact *wfv1.Artifact, path string) error {
+	client, ctx := newOCIClient()
+	mynamespace := getNamespace(ctx, client)
+
+	createBucket(ctx, client, mynamespace, "my-bucket")
+
+	return nil
+}
+
 /*
 	err := wait.ExponentialBackoff(wait.Backoff{Duration: time.Second * 2, Factor: 2.0, Steps: 5, Jitter: 0.1},
 		func() (bool, error) {
@@ -68,12 +104,19 @@ func (ociDriver *ArtifactDriver) Load(inputArtifact *wfv1.Artifact, path string)
 			return true, nil
 		})
 	return err
-*/
 return nil
 }
+*/
 
 // Save saves an artifact
 func (ociDriver *ArtifactDriver) Save(path string, outputArtifact *wfv1.Artifact) error {
+	client, ctx := newOCIClient()
+	mynamespace := getNamespace(ctx, client)
+
+	createBucket(ctx, client, mynamespace, "my-bucket")
+
+	return nil
+}
 /*
 	err := wait.ExponentialBackoff(wait.Backoff{Duration: time.Second * 2, Factor: 2.0, Steps: 5, Jitter: 0.1},
 		func() (bool, error) {
@@ -96,6 +139,6 @@ func (ociDriver *ArtifactDriver) Save(path string, outputArtifact *wfv1.Artifact
 			return true, nil
 		})
 	return err
-*/
 return nil
 }
+*/

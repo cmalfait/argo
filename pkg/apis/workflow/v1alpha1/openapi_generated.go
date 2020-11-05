@@ -60,6 +60,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.NodeStatus":                  schema_pkg_apis_workflow_v1alpha1_NodeStatus(ref),
 		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.NodeSynchronizationStatus":   schema_pkg_apis_workflow_v1alpha1_NodeSynchronizationStatus(ref),
 		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.NoneStrategy":                schema_pkg_apis_workflow_v1alpha1_NoneStrategy(ref),
+		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OCIArtifact":                 schema_pkg_apis_workflow_v1alpha1_OCIArtifact(ref),
+		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OCIBucket":                   schema_pkg_apis_workflow_v1alpha1_OCIBucket(ref),
 		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OSSArtifact":                 schema_pkg_apis_workflow_v1alpha1_OSSArtifact(ref),
 		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OSSBucket":                   schema_pkg_apis_workflow_v1alpha1_OSSBucket(ref),
 		"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.Outputs":                     schema_pkg_apis_workflow_v1alpha1_Outputs(ref),
@@ -292,6 +294,12 @@ func schema_pkg_apis_workflow_v1alpha1_Artifact(ref common.ReferenceCallback) co
 							Ref:         ref("github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GCSArtifact"),
 						},
 					},
+					"oci": {
+						SchemaProps: spec.SchemaProps{
+							Description: "OCI contains OCI artifact location details",
+							Ref:         ref("github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OCIArtifact"),
+						},
+					},
 					"globalName": {
 						SchemaProps: spec.SchemaProps{
 							Description: "GlobalName exports an output artifact to the global scope, making it available as '{{workflow.outputs.artifacts.XXXX}} and in workflow.status.outputs.artifacts",
@@ -331,7 +339,7 @@ func schema_pkg_apis_workflow_v1alpha1_Artifact(ref common.ReferenceCallback) co
 			},
 		},
 		Dependencies: []string{
-			"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.ArchiveStrategy", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.ArtifactoryArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GCSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GitArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HDFSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HTTPArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OSSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.RawArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.S3Artifact"},
+			"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.ArchiveStrategy", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.ArtifactoryArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GCSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GitArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HDFSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HTTPArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OCIArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OSSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.RawArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.S3Artifact"},
 	}
 }
 
@@ -397,11 +405,17 @@ func schema_pkg_apis_workflow_v1alpha1_ArtifactLocation(ref common.ReferenceCall
 							Ref:         ref("github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GCSArtifact"),
 						},
 					},
+					"oci": {
+						SchemaProps: spec.SchemaProps{
+							Description: "OCI contains OCI artifact location details",
+							Ref:         ref("github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OCIArtifact"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.ArtifactoryArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GCSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GitArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HDFSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HTTPArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OSSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.RawArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.S3Artifact"},
+			"github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.ArtifactoryArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GCSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.GitArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HDFSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.HTTPArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OCIArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.OSSArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.RawArtifact", "github.com/argoproj/argo/pkg/apis/workflow/v1alpha1.S3Artifact"},
 	}
 }
 
@@ -2227,6 +2241,83 @@ func schema_pkg_apis_workflow_v1alpha1_NoneStrategy(ref common.ReferenceCallback
 			SchemaProps: spec.SchemaProps{
 				Description: "NoneStrategy indicates to skip tar process and upload the files or directory tree as independent files. Note that if the artifact is a directory, the artifact driver must support the ability to save/load the directory appropriately.",
 				Type:        []string{"object"},
+			},
+		},
+	}
+}
+
+func schema_pkg_apis_workflow_v1alpha1_OCIArtifact(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "OCIArtifact is the location of an OCI artifact",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"endpoint": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Endpoint is the hostname of the bucket endpoint",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"bucket": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Bucket is the name of the bucket",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"compartmentOCID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "CompartmentOCID is the ocid of the Compartment",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"key": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Key is the path in the bucket where the artifact resides",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"endpoint", "bucket", "compartmentOCID", "key"},
+			},
+		},
+	}
+}
+
+func schema_pkg_apis_workflow_v1alpha1_OCIBucket(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "OCIBucket contains the access information required for interfacing with an Oracle OCI bucket",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"endpoint": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Endpoint is the hostname of the bucket endpoint",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"bucket": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Bucket is the name of the bucket",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"compartmentOCID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "CompartmentOCID is the ocid of the Compartment",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"endpoint", "bucket", "compartmentOCID"},
 			},
 		},
 	}

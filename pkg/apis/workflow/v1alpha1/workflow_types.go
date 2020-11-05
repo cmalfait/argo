@@ -802,6 +802,7 @@ const (
 	ArtifactLocationRaw         ArtifactLocationType = "Raw"
 	ArtifactLocationOSS         ArtifactLocationType = "OSS"
 	ArtifactLocationGCS         ArtifactLocationType = "GCS"
+	ArtifactLocationOCI         ArtifactLocationType = "OCI"
 	ArtifactLocationUnknown     ArtifactLocationType = ""
 )
 
@@ -836,6 +837,9 @@ type ArtifactLocation struct {
 
 	// GCS contains GCS artifact location details
 	GCS *GCSArtifact `json:"gcs,omitempty" protobuf:"bytes,9,opt,name=gcs"`
+
+	// OCI contains OCI artifact location details
+	OCI *OCIArtifact `json:"oci,omitempty" protobuf:"bytes,10,opt,name=oci"`
 }
 
 // HasLocation whether or not an artifact has a location defined
@@ -847,7 +851,8 @@ func (a *ArtifactLocation) HasLocation() bool {
 		a.Raw.HasLocation() ||
 		a.HDFS.HasLocation() ||
 		a.OSS.HasLocation() ||
-		a.GCS.HasLocation()
+		a.GCS.HasLocation() ||
+		a.OCI.HasLocation()
 }
 
 func (a *ArtifactLocation) GetType() ArtifactLocationType {
@@ -882,6 +887,10 @@ func (a *ArtifactLocation) GetType() ArtifactLocationType {
 
 	if a.GCS != nil {
 		return ArtifactLocationGCS
+	}
+
+	if a.OCI != nil {
+		return ArtifactLocationOCI
 	}
 
 	return ArtifactLocationUnknown
@@ -1801,6 +1810,37 @@ type OSSArtifact struct {
 
 func (o *OSSArtifact) HasLocation() bool {
 	return o != nil && o.Bucket != "" && o.Endpoint != "" && o.Key != ""
+}
+
+// OCIBucket contains the access information required for interfacing with an Oracle OCI bucket
+type OCIBucket struct {
+	// Endpoint is the hostname of the bucket endpoint
+	Endpoint string `json:"endpoint" protobuf:"bytes,1,opt,name=endpoint"`
+
+	// Bucket is the name of the bucket
+	Bucket string `json:"bucket" protobuf:"bytes,2,opt,name=bucket"`
+
+	// AccessKeySecret is the secret selector to the bucket's access key
+	AccessKeySecret apiv1.SecretKeySelector `json:"accessKeySecret" protobuf:"bytes,3,opt,name=accessKeySecret"`
+
+	// SecretKeySecret is the secret selector to the bucket's secret key
+	SecretKeySecret apiv1.SecretKeySelector `json:"secretKeySecret" protobuf:"bytes,4,opt,name=secretKeySecret"`
+
+	// CompartmentOCID is the ocid of the Compartment
+	CompartmentOCID string `json:"compartmentOCID" protobuf:"bytes,5,opt,name=compartmentOCID"`
+}
+
+// OCIArtifact is the location of an OCI artifact
+type OCIArtifact struct {
+	OCIBucket `json:",inline" protobuf:"bytes,1,opt,name=OCIBucket"`
+
+	// Key is the path in the bucket where the artifact resides
+	Key string `json:"key" protobuf:"bytes,2,opt,name=key"`
+}
+
+// HasLocation is a check on location
+func (oci *OCIArtifact) HasLocation() bool {
+	return oci != nil && oci.Bucket != "" && oci.Endpoint != "" && oci.Key != ""
 }
 
 // ExecutorConfig holds configurations of an executor container.
